@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/header.css">
+    <link rel="stylesheet" href="styles/search.css">
+</head>
+<style>
+    #container{
+        margin-top: 30px;   
+       
+        display: flex;
+      flex-direction: column;
+
+    }
+    .mainimg{
+         border-radius: 20px;
+        
+    }
+    .infodiv{
+         width: 50%;
+
+    }
+    .main{
+        display: flex;
+        padding-left: 50px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 20px;
+
+    }
+    .measurediv{
+        display: flex;
+       width: 80%;
+      
+       justify-content: space-evenly;
+       flex-wrap: wrap;
+    }
+    .recipe{
+    text-align: justify;
+    line-height: 1.5;
+
+    }
+    
+</style>
+<body>
+    <header>
+    
+    </header>
+    <div id="results"></div>
+
+
+    <div id="maindiv"></div>
+
+    <h1 style="margin-left: 50px; margin-top: 50px;" >
+        RECIPE OF THE DAY :
+    </h1>
+
+  
+    <div id="container">
+
+        
+        
+
+    </div>
+    
+</body>
+</html>
+<script type="module">
+    let results = document.querySelector('#results')
+    let container= document.querySelector('#container')
+
+
+    import { getdata, searchresult, randomrecipe,hidebox,debounce,userinfo} from './scripts/showdata.js'
+    import {header} from './component/header.js'
+
+    hidebox(maindiv,results)
+
+
+    document.querySelector('header').innerHTML = header()
+      let para = document.querySelector('#userinfo')
+        userinfo(para)
+
+    var inputdish = document.querySelector('#searchdish')
+    inputdish.addEventListener('input', function () {
+       debounce(getdish)
+
+    })
+
+
+    function getdish() {
+
+        var dish = document.querySelector('#searchdish').value
+        console.log(dish)
+
+
+        let response = getdata(`https://themealdb.com/api/json/v1/1/search.php?s=${dish}`)
+
+
+        response.then((res) => {
+            // console.log(res)
+            console.log(res.meals)
+            let data = res.meals
+            searchresult(data, results)
+
+
+        })
+        response.catch((er) => {
+            console.log(er)
+        })
+
+    }
+
+
+
+    let random =getdata(`https://themealdb.com/api/json/v1/1/random.php`)
+
+      random.then((res) => {
+            // console.log(res)
+            console.log(res.meals)
+            let data = res.meals
+            randomrecipe(res.meals,container)
+           
+
+
+        })
+        random.catch((er) => {
+            console.log(er)
+        })
+
+      
+
+
+
+   
+
+
+</script>
